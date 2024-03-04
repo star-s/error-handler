@@ -42,7 +42,7 @@ The default ErrorHandler will contain the error handling logic that is common ac
 
 ```swift
 extension ErrorHandler {
-    class var defaultHandler: ErrorHandler {
+    static var defaultHandler: ErrorHandler {
 
         return ErrorHandler()
 
