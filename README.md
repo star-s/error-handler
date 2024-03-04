@@ -1,49 +1,16 @@
 ![Error Handler](https://github.com/Workable/swift-error-handler/blob/master/ErrorHandler.png)
 
-[![Travis](https://travis-ci.org/Workable/swift-error-handler.svg?branch=master)](https://travis-ci.org/Workable/swift-error-handler)
-
 > Elegant and flexible error handling for Swift
 
 ErrorHandler enables expressing complex error handling logic with a few lines of code using a memorable fluent API.
 
+This project forked from [swift-error-handler](https://github.com/Workable/swift-error-handler).
+
+Differences with original project:
+
+- removed support Alamofire, CocoaPods and Carthage
 
 ## Installation
-
-### CocoaPods
-
-To integrate `ErrorHandler` into your Xcode project using CocoaPods, use the following entry in your `Podfile`:
-
-```ruby
-target '<Your Target Name>' do
-    pod 'ErrorHandler'
-end
-```
-
-or if you are using Alamofire and want to take advantage of the `ErrorHandler`s convenience extensions for handling `Alamofire` errors with  invalid http statuses
-
-
-```ruby
-target '<Your Target Name>' do
-    pod 'ErrorHandler'
-    pod 'ErrorHandler/Alamofire'
-end
-```
-
-Then, run the following command:
-
-```bash
-$ pod install
-```
-
-### Carthage
-
-To integrate `ErrorHandler` into your Xcode project using Carthage, specify it in your `Cartfile`:
-
-```ogdl
-github "Workable/swift-error-handler"
-```
-
-Run `carthage update` to build the framework and drag the built `ErrorHandler.framework` into your Xcode project.
 
 ### Swift Package Manager
 
@@ -55,7 +22,7 @@ import PackageDescription
 let package = Package(
     name: "MyApp",
     dependencies: [
-        .package(url: "https://github.com/Workable/swift-error-handler.git", from: "0.8")
+        .package(url: "https://github.com/star-s/error-handler.git", from: "0.1")
     ]
 )
 ```
@@ -118,16 +85,6 @@ extension ErrorHandler {
                 showErrorAlert("You are not connected to the Internet. Please check your connection and retry.")
                 return .continueMatching
             }
-
-            // You can use the Alamofire extensions to easily handle responses with invalid http status
-            .onAFError(withStatus: 401, do: { (_) in
-                showLoginScreen()
-                return .continueMatching
-            })
-            .onAFError(withStatus: 404, do: { (_) in
-                showErrorAlert("Resource not found!")
-                return .continueMatching
-            })
 
             // Handle unknown errors.
             .onNoMatch(do: { (_)  in
@@ -206,7 +163,7 @@ When designing for errors, we usually need to:
 4. perform some **actions** for **all errors** both known and unknown like logging
 5. keep our code **DRY**
 
-Swift's has a very well thought error handling model keeping balance between convenience ([automatic propagation](https://github.com/apple/swift/blob/master/docs/ErrorHandlingRationale.rst#automatic-propagation)) and clarity-safety ([Typed propagation](https://github.com/apple/swift/blob/master/docs/ErrorHandlingRationale.rst#id3), [Marked propagation](https://github.com/apple/swift/blob/master/docs/ErrorHandlingRationale.rst#id4)). As a result, the compiler serves as a reminder of errors that need to be handled and at the same type it is relatively easy to propagate errors and handle them higher up the stack.
+Swift's has a very well thought error handling model keeping balance between convenience ([automatic propagation](https://github.com/apple/swift/blob/main/docs/ErrorHandlingRationale.rst#automatic-propagation)) and clarity-safety ([Typed propagation](https://github.com/apple/swift/blob/main/docs/ErrorHandlingRationale.rst#id3), [Marked propagation](https://github.com/apple/swift/blob/main/docs/ErrorHandlingRationale.rst#id4)). As a result, the compiler serves as a reminder of errors that need to be handled and at the same type it is relatively easy to propagate errors and handle them higher up the stack.
 
 However, even with this help from the language, achieving the goals listed above in an **ad-hoc** manner in an application of a reasonable size can lead to a lot of **boilerplate** which is **tedious** to write and reason about. Because of this friction developers quite often choose to swallow errors or handle them all in the same generic way.
 
