@@ -10,6 +10,8 @@ Differences with original project:
 
 - removed support Alamofire, CocoaPods and Carthage
 
+- ErrorHandler is value type
+
 ## Installation
 
 ### Swift Package Manager

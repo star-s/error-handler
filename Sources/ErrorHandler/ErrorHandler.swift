@@ -24,7 +24,7 @@ public typealias Tag = String
  
  You can add actions to be executed when there is no match with the onNoMatch(do:) method and actions that will be executed regardless of whether there is a match or not with `always(do:).`
  */
-open class ErrorHandler {
+public struct ErrorHandler {
     fileprivate var errorActions: [(ErrorMatcher, ErrorAction)] = []
     fileprivate var onNoMatch: [ErrorAction] = []
     fileprivate var alwaysActions: [ErrorAction] = []
@@ -56,8 +56,9 @@ open class ErrorHandler {
      - Note: When the `handle` method is called the matching functions are called in lifo order. First is checked the `matches` function given by the last `on(_:do:)` call. The reasoning behind this is that the last `on(matches:do:)` call is the last customization made to the handler by the developer and as such, it's action should have priority if there are multiple matches.
      */
     public func on(_ matcher: ErrorMatcher, do action: @escaping ErrorAction) -> ErrorHandler {
-        errorActions.append((matcher, action))
-        return self
+        var copy = self
+        copy.errorActions.append((matcher, action))
+        return copy
     }
     
     /**
@@ -68,8 +69,9 @@ open class ErrorHandler {
      - Note: You can add multiple `onNoMatch` actions and they will be executed in lifo order until one of them returns MatchingPolicy.stopMatching. The reasoning behind this is that the last `onNoMatch` call is the last customization made to the handler's `onNoMatch` actions and as such, it should have priority.
      */
     public func onNoMatch(do action: @escaping ErrorAction) -> ErrorHandler {
-        onNoMatch.append(action)
-        return self
+        var copy = self
+        copy.onNoMatch.append(action)
+        return copy
     }
     
     /**
@@ -80,8 +82,9 @@ open class ErrorHandler {
      - Note: You can add multiple `always` actions and they will be executed in lifo order until one of them returns `MatchingPolicy.stopMatching`.
      */
     public func always(do action: @escaping ErrorAction) -> ErrorHandler {
-        alwaysActions.append(action)
-        return self
+        var copy = self
+        copy.alwaysActions.append(action)
+        return copy
     }
     
     /**
@@ -162,12 +165,13 @@ open class ErrorHandler {
      - Returns: The updated error handler (self).
      */
     public func tag(_ matcher: ErrorMatcher, with tag: Tag) -> ErrorHandler {
+        var copy = self
         if tagsDictionary[tag] != nil {
-            tagsDictionary[tag]?.append(matcher)
+            copy.tagsDictionary[tag]?.append(matcher)
         } else {
-            tagsDictionary[tag] = [matcher]
+            copy.tagsDictionary[tag] = [matcher]
         }
-        return self
+        return copy
     }
     
     /**
@@ -177,8 +181,9 @@ open class ErrorHandler {
     public func on(tag: Tag, do action: @escaping ErrorAction) -> ErrorHandler {
         guard let taggedMatchers = tagsDictionary[tag] else { return self }
         let matherActionsPairs = taggedMatchers.map({ ($0, action) })
-        errorActions.append(contentsOf: matherActionsPairs)
-        return self
+        var copy = self
+        copy.errorActions.append(contentsOf: matherActionsPairs)
+        return copy
     }
     
     /**
