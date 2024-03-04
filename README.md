@@ -163,7 +163,7 @@ When designing for errors, we usually need to:
 4. perform some **actions** for **all errors** both known and unknown like logging
 5. keep our code **DRY**
 
-Swift's has a very well thought error handling model keeping balance between convenience ([automatic propagation](https://github.com/apple/swift/blob/main/docs/ErrorHandlingRationale.rst#automatic-propagation)) and clarity-safety ([Typed propagation](https://github.com/apple/swift/blob/main/docs/ErrorHandlingRationale.rst#id3), [Marked propagation](https://github.com/apple/swift/blob/main/docs/ErrorHandlingRationale.rst#id4)). As a result, the compiler serves as a reminder of errors that need to be handled and at the same type it is relatively easy to propagate errors and handle them higher up the stack.
+Swift's has a very well thought error handling model keeping balance between convenience ([automatic propagation](https://github.com/apple/swift/blob/main/docs/ErrorHandlingRationale.md#automatic-propagation)) and clarity-safety ([Typed propagation](https://github.com/apple/swift/blob/main/docs/ErrorHandlingRationale.md#typed-propagation), [Marked propagation](https://github.com/apple/swift/blob/main/docs/ErrorHandlingRationale.md#marked-propagation)). As a result, the compiler serves as a reminder of errors that need to be handled and at the same type it is relatively easy to propagate errors and handle them higher up the stack.
 
 However, even with this help from the language, achieving the goals listed above in an **ad-hoc** manner in an application of a reasonable size can lead to a lot of **boilerplate** which is **tedious** to write and reason about. Because of this friction developers quite often choose to swallow errors or handle them all in the same generic way.
 
