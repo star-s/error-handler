@@ -4,6 +4,7 @@
 //
 //  Created by Kostas Kremizas on 09/05/16.
 //  Copyright © 2016 Workable. All rights reserved.
+//  Copyright © 2024 Sergey Starukhin.
 //
 
 import Foundation
