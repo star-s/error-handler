@@ -134,10 +134,6 @@ sendMessage(message) { (response, error) in
                         updateEmailTextFieldForValidationError()
                         return .continueMatching
                     })
-                    .onAFError(withStatus: 404, do: { (_) in
-                        doSomethingSpecificFor404()
-                        return .stopMatching
-                    })
                     .onNoMatch(do: { (_) in
                         // In the context of the current screen we can provide a better message.
                         showErrorAlert("An error occurred! The message has not been sent.")
